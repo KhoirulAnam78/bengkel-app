@@ -108,65 +108,68 @@
                     <x-form.validation.error name="transaksi_temp" />
                 </div>
                 <div class="card-body">
-                    <table id="example" class="table table-bordered table-striped align-middle" style="width:100%">
-                        <thead class="bg-primary text-white">
-                            <tr>
-                                <th>No</th>
-                                <th>Kode Sparepart</th>
-                                <th>Nama Sparepart</th>
-                                <th>Harga</th>
-                                <th>Jumlah</th>
-                                <th>Sub Total</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-
-                                $a = 0;
-                            @endphp
-                            @forelse ($transaksi_temp as $key => $item)
+                    <div class="table-responsive">
+                        <table id="example" class="table table-bordered table-striped align-middle"
+                            style="width:100%">
+                            <thead class="bg-primary text-white">
                                 <tr>
-                                    <td>{{ ++$a }}</td>
-                                    <td>{{ $item['kode'] }}</td>
-                                    <td>{{ $item['nama'] }}</td>
-                                    <td>{{ $item['harga'] }}</td>
-                                    <td>{{ $item['jumlah'] }}</td>
-                                    <td>{{ $item['sub_total'] }}</td>
-                                    <td><span class="btn btn-danger btn-sm"
-                                            wire:click="deleteTemp({{ $key }})">Hapus</span></td>
+                                    <th>No</th>
+                                    <th>Kode Sparepart</th>
+                                    <th>Nama Sparepart</th>
+                                    <th>Harga</th>
+                                    <th>Jumlah</th>
+                                    <th>Sub Total</th>
+                                    <th>Aksi</th>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="7" align="center"> Belum ada transaksi !</td>
-                                </tr>
-                            @endforelse
+                            </thead>
+                            <tbody>
+                                @php
 
-                            @if ($total)
-                                <tr class="bg-dark">
-                                    <td colspan="5"></td>
-                                    <td class="text-white">Total: </td>
-                                    <td colspan="2" class="text-white">Rp. {{ $total }}</td>
-                                </tr>
-                                {{-- <tr>
-                                    <td colspan="5"></td>
-                                    <td>Jumlah Bayar: (Rp.)</td>
-                                    <td colspan="2">
-                                        <input type="text" class="form-control" wire:model.live="jml_bayar">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="5"></td>
-                                    <td>Kembalian: (Rp.)</td>
-                                    <td colspan="2">
-                                        <input type="text" class="form-control" disabled
-                                            value="{{ $kembalian }}">
-                                    </td>
-                                </tr> --}}
-                            @endif
+                                    $a = 0;
+                                @endphp
+                                @forelse ($transaksi_temp as $key => $item)
+                                    <tr>
+                                        <td>{{ ++$a }}</td>
+                                        <td>{{ $item['kode'] }}</td>
+                                        <td>{{ $item['nama'] }}</td>
+                                        <td>{{ $item['harga'] }}</td>
+                                        <td>{{ $item['jumlah'] }}</td>
+                                        <td>{{ $item['sub_total'] }}</td>
+                                        <td><span class="btn btn-danger btn-sm"
+                                                wire:click="deleteTemp({{ $key }})">Hapus</span></td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="7" align="center"> Belum ada transaksi !</td>
+                                    </tr>
+                                @endforelse
 
-                        </tbody>
-                    </table>
+                                @if ($total)
+                                    <tr class="bg-dark">
+                                        <td colspan="5"></td>
+                                        <td class="text-white">Total: </td>
+                                        <td colspan="2" class="text-white">Rp. {{ $total }}</td>
+                                    </tr>
+                                    {{-- <tr>
+                                        <td colspan="5"></td>
+                                        <td>Jumlah Bayar: (Rp.)</td>
+                                        <td colspan="2">
+                                            <input type="text" class="form-control" wire:model.live="jml_bayar">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5"></td>
+                                        <td>Kembalian: (Rp.)</td>
+                                        <td colspan="2">
+                                            <input type="text" class="form-control" disabled
+                                                value="{{ $kembalian }}">
+                                        </td>
+                                    </tr> --}}
+                                @endif
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
