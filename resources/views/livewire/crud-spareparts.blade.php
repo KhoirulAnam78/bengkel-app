@@ -73,7 +73,7 @@
     <script>
         // inititalize table
         $('#example').DataTable({
-            // ordering: true,
+            ordering: true,
             processing: true,
             serverSide: true,
 
@@ -89,24 +89,33 @@
                     name: 'code'
                 },
                 {
-                    data: 'name',
-                    name: 'name'
+                    data: 'spareparts.name',
+                    name: 'spareparts.name',
+                    orderable: true,
+                    searchable: true,
                 },
                 {
                     data: 'price',
-                    name: 'price'
+                    name: 'price',
+                    orderable: false,
+                    searchable: false,
                 },
                 {
                     data: 'satuan',
-                    name: 'satuan'
+                    name: 'satuan',
+                    orderable: false,
+                    searchable: false,
                 },
                 {
                     data: 'descriptions',
-                    name: 'descriptions'
+                    name: 'descriptions',
+
+                    orderable: false,
+                    searchable: false,
                 },
                 {
                     data: 'stok',
-                    name: 'stok'
+                    name: 'stok',
                 },
                 {
                     data: 'aksi',
@@ -124,7 +133,7 @@
             $('#example').DataTable().destroy();
             // inititalize table
             $('#example').DataTable({
-                // ordering: true,
+                ordering: true,
                 processing: true,
                 serverSide: true,
 
@@ -140,24 +149,33 @@
                         name: 'code'
                     },
                     {
-                        data: 'name',
-                        name: 'name'
+                        data: 'spareparts.name',
+                        name: 'spareparts.name',
+                        orderable: true,
+                        searchable: true,
                     },
                     {
                         data: 'price',
-                        name: 'price'
+                        name: 'price',
+                        orderable: false,
+                        searchable: false,
                     },
                     {
                         data: 'satuan',
-                        name: 'satuan'
+                        name: 'satuan',
+                        orderable: false,
+                        searchable: false,
                     },
                     {
                         data: 'descriptions',
-                        name: 'descriptions'
+                        name: 'descriptions',
+
+                        orderable: false,
+                        searchable: false,
                     },
                     {
                         data: 'stok',
-                        name: 'stok'
+                        name: 'stok',
                     },
                     {
                         data: 'aksi',

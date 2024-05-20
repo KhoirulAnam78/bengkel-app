@@ -1,89 +1,86 @@
 @extends('layouts.dashboard.app')
 
-@section('title', 'User Management')
+@section('title', $title)
 
 @section('breadcrumb')
-<x-dashboard.breadcrumb title="User Management" page="User Management" active="Users" route="{{ route('user.index') }}" />
+    <x-dashboard.breadcrumb title="{{ $title }}" page="User Management" active="{{ $title }}"
+        route="{{ route('user.index') }}" />
 @endsection
+
+@push('css')
+    <!--datatable css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
+    <!--datatable responsive css-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+    @livewireStyles
+@endpush
 
 @section('content')
-<div class="card card-height-100 table-responsive">
-    <!-- cardheader -->
-    <div class="card-header border-bottom-dashed align-items-center d-flex">
-        <h4 class="card-title mb-0 flex-grow-1">User</h4>
-        <div class="flex-shrink-0">
-            <button type="button" class="btn btn-soft-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-form-add-user">
-                <i class="ri-add-line"></i>
-                Add
-            </button>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title mb-0 fw-bold">User Management</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="example" class="table table-bordered table-striped align-middle" style="width:100%">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th>No</th>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
-    <!-- end cardheader -->
-    <!-- Hoverable Rows -->
-    <table class="table table-hover table-nowrap mb-0">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Username</th>
-                <th scope="col">Role</th>
-                <th scope="col">Status</th>
-                <th scope="col" class="col-1"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($users as $user)
-            <tr>
-                <th scope="row">{{ $loop->iteration }}</th>
-                <td>{{ $user->username }}</td>
-                <td>
-                    @foreach ($user->roles as $role)
-                    <span class="badge badge-soft-success">{{ $role->name }}</span>
-                    @endforeach
-                </td>
-                <td>
-                    @if ($user->status==1)
-                    <span class="badge badge-soft-success">Aktif</span>
-                    @else
-                    <span class="badge badge-soft-danger">Non Aktif</span>
-                    @endif
-                </td>
-                <td>
-                    <div class="dropdown">
-                        <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </a>
-
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li>
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-form-edit-user-{{ $user->id }}">
-                                    Edit
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('modal-form-delete-user-{{ $user->id }}').submit()">
-                                    Delete
-                                </a>
-                            </li>
-                        </ul>
-
-                        @include('components.form.modal.user.edit')
-                        @include('components.form.modal.user.delete')
-                    </div>
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <th colspan="5" class="text-center">No data to display</th>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
-    <div class="card-footer py-4">
-        <nav aria-label="..." class="pagination justify-content-end">
-            {{ $users->links() }}
-        </nav>
-    </div>
-</div>
-
-@include('components.form.modal.user.add')
 @endsection
+
+@push('script')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--datatable js-->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $('#example').DataTable({
+            // ordering: true,
+            processing: true,
+            serverSide: true,
+
+            ajax: "{{ route('user.index') }}",
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
+                },
+                {
+                    data: 'username',
+                    name: 'username'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'roles',
+                    name: 'roles'
+                },
+                {
+                    data: 'aksi',
+                    name: 'aksi',
+                    orderable: false,
+                    searchable: false
+                },
+            ]
+        });
+    </script>
+    @livewireScripts
+@endpush

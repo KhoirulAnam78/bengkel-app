@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mekanik;
+use App\Models\Service;
+use App\Models\Supplier;
+use App\Models\Sparepart;
+use App\Models\JenisMotor;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
@@ -11,16 +16,15 @@ class MasterDataController extends Controller
     public function sparepart(Request $request)
     {
         if($request->ajax()){
-            $query = DB::table('spareparts as a')
-            ->leftjoin('jenis_motor as b','b.id','a.id_jenis')
+            $query = Sparepart::leftjoin('jenis_motor as b','b.id','spareparts.id_jenis')
             ->when(!$request->get('order')[0]['column'], function($q){
-                $q->orderBy('a.code');
+                $q->orderBy('spareparts.name')->orderBy('spareparts.code');
             })
-            ->select('a.*','b.name as nama_jenis_motor');
+            ->select('spareparts.*','b.name as nama_jenis_motor');
             
             return DataTables::of($query)
             ->addIndexColumn()
-            ->addColumn('name',function($data){
+            ->addColumn('spareparts.name',function($data){
                 $html = $data->name;
                 if($data->nama_jenis_motor){
                     $html .= '<br><span class="badge bg-primary">'.$data->nama_jenis_motor.'</span>';
@@ -34,7 +38,7 @@ class MasterDataController extends Controller
             ->addColumn('aksi',function ($data){
                 return '<span class="btn btn-info btn-sm mb-2" wire:click="show('.$data->id.')">Edit</span> <span class="btn btn-danger btn-sm mb-2" wire:click="showDelete('.$data->id.')">Delete</span>';
             })
-            ->rawColumns(['aksi','price','name'])
+            ->rawColumns(['aksi','price','spareparts.name'])
             ->make(true);
         }
         $title = 'Data Master Spareparts';
@@ -43,11 +47,10 @@ class MasterDataController extends Controller
     public function services(Request $request)
     {
         if($request->ajax()){
-            $query = DB::table('services as a')
-            ->when(!$request->get('order')[0]['column'], function($q){
+            $query = Service::when(!$request->get('order')[0]['column'], function($q){
                 $q->orderBy('code');
             })
-            ->select('a.*');
+            ->select('*');
             
             return DataTables::of($query)
             ->addIndexColumn()
@@ -64,8 +67,7 @@ class MasterDataController extends Controller
     public function jenisMotor(Request $request)
     {
         if($request->ajax()){
-            $query = DB::table('jenis_motor as a')
-            ->when(!$request->get('order')[0]['column'], function($q){
+            $query = JenisMotor::when(!$request->get('order')[0]['column'], function($q){
                 $q->orderBy('code');
             });
             
@@ -84,8 +86,7 @@ class MasterDataController extends Controller
     public function mekanik(Request $request)
     {
         if($request->ajax()){
-            $query = DB::table('mekanik as a')
-            ->when(!$request->get('order')[0]['column'], function($q){
+            $query = Mekanik::when(!$request->get('order')[0]['column'], function($q){
                 $q->orderBy('name');
             });
             
@@ -104,8 +105,7 @@ class MasterDataController extends Controller
     public function suppliers(Request $request)
     {
         if($request->ajax()){
-            $query = DB::table('suppliers as a')
-            ->when(!$request->get('order')[0]['column'], function($q){
+            $query = Supplier::when(!$request->get('order')[0]['column'], function($q){
                 $q->orderBy('name');
             });
             
