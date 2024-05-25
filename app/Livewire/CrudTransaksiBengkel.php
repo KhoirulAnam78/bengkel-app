@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Transaksi;
 use App\Helper\GlobalHelper;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 class CrudTransaksiBengkel extends Component
 {
@@ -14,6 +15,7 @@ class CrudTransaksiBengkel extends Component
     public $kode_service,$nama_service, $harga_service, $diskon, $mekanik;
 
     public $transaksi_temp = [], $total, $jml_bayar, $kembalian;
+    public $proses_id=0;
 
     public function mount(){
         // $trans = DB::table('transaksi')->select('id')->orderBy('created_at','DESC')->first();
@@ -99,6 +101,16 @@ class CrudTransaksiBengkel extends Component
         $this->dispatch('empty-sparepart-form');
     }
 
+    public function empty(){
+        $this->kode_sparepart = null;
+        $this->selling_price = null;
+        $this->jumlah = null;
+        $this->stok = null;
+        $this->kode_service = null;
+        $this->mekanik = null;
+        $this->harga_service = null;
+    }
+
     public function updatedKodeService(){
         $service = DB::table('services')->where('code',$this->kode_service)->first();
         if($service){
@@ -157,6 +169,7 @@ class CrudTransaksiBengkel extends Component
                 'bayar' => $this->jml_bayar,
                 'kembalian' => $this->kembalian
             ]);
+            $this->proses_id = Crypt::encrypt($transaksi->id);
             
             foreach($this->transaksi_temp as $value){
                 DB::table('detail_transaksi')->insert([

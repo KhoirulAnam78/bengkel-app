@@ -261,11 +261,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <span wire:click="cetak()" class="btn btn-success" wire:loading.attr="disabled">
-                        <span wire:loading.remove wire:target="cetak">Cetak</span>
-                        <span wire:loading wire:target="cetak">Proses...</span>
-                    </span>
-                    <a href="{{ route('transaksi.bengkel') }}" class="btn btn-success">
+                    <a href="{{ route('transaksi.cetak', ['id' => $proses_id]) }}" target="_blank"
+                        class="btn btn-success mb-2">Cetak</a>
+                    <a href="{{ route('transaksi.bengkel') }}" class="btn btn-info">
+                        Kembali
                     </a>
                 </div>
             </div><!-- /.modal-content -->
@@ -280,6 +279,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
     <!--select2 cdn-->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.6.1/toastify.js" crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $("#id_sparepart").select2({
@@ -373,11 +375,28 @@
         });
 
         document.addEventListener('empty-sparepart-form', function(e) {
-            Swal.fire({
-                title: "Berhasil",
-                text: "Berhasil menambahkan transaksi",
-                icon: "success",
-            });
+            // Swal.fire({
+            //     title: "Berhasil",
+            //     text: "Berhasil menambahkan transaksi",
+            //     icon: "success",
+            // });
+            // $('#toaster').toast('show');
+
+            Toastify({
+                text: "Berhasil <br> Berhasil menambahkan transaksi !",
+                duration: 3000,
+                // destination: "https://github.com/apvarun/toastify-js",
+                // newWindow: true,
+                className: "bg-warning",
+                close: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                // style: {
+                //     // background: "linear-gradient(to right, #00b09b, #96c93d)",
+                // },
+                onClick: function() {} // Callback after click
+            }).showToast();
 
             $("#id_sparepart").select2('destroy');
 
@@ -414,11 +433,28 @@
 
 
         document.addEventListener('empty-service-form', function(e) {
-            Swal.fire({
-                title: "Berhasil",
-                text: "Berhasil menambahkan transaksi",
-                icon: "success",
-            });
+            // Swal.fire({
+            //     title: "Berhasil",
+            //     text: "Berhasil menambahkan transaksi",
+            //     icon: "success",
+            // });
+
+            Toastify({
+                text: "Berhasil <br> Berhasil menambahkan transaksi !",
+                duration: 3000,
+                // destination: "https://github.com/apvarun/toastify-js",
+                // newWindow: true,
+                className: "bg-warning",
+                close: true,
+                gravity: "bottom", // `top` or `bottom`
+                position: "right", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                // style: {
+                //     // background: "linear-gradient(to right, #00b09b, #96c93d)",
+                // },
+                onClick: function() {} // Callback after click
+            }).showToast();
+
             $("#id_mekanik").select2('destroy');
 
             $("#id_mekanik").select2({

@@ -11,9 +11,22 @@
         content="bill , receipt, tally, invoice, cash memo, invoice html, invoice pdf, invoice print, invoice templates, multipurpose invoice, template, booking invoice, general invoice, clean invoice, catalog, estimate, proposal">
     <meta name="author" content="initTheme">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Cetak Transaksi</title>
+    <title>Transaksi-{{ $transaksi->no_transaksi }}</title>
     <link rel="shortcut icon" href="{{ asset('assets/images/logo-ijm.png') }}">
+    <style>
+        @media print {
+            @page {
+                size: 80mm 110mm;
+                margin: 0mm;
+            }
 
+            *,
+            *: before,
+            *: after {
+                box - sizing: border - box;
+            }
+        }
+    </style>
     <!-- Style -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets-receipt') }}/css/main-style.css">
 </head>
@@ -91,6 +104,10 @@
             </div> --}}
         </div>
     </main>
+
+    <script>
+        window.print();
+    </script>
 
     <!-- jquery-->
     <script src="{{ asset('assets-receipt') }}/js/jquery-3.7.0.min.js"></script>

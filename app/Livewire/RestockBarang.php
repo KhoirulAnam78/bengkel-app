@@ -6,13 +6,14 @@ use Livewire\Component;
 use App\Models\Transaksi;
 use App\Helper\GlobalHelper;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
 
 class RestockBarang extends Component
 {
     public $no_transaksi, $tgl_transaksi, $supplier, $keterangan;
     public $kode_sparepart, $nama_sparepart, $buying_price, $jumlah, $stok;
 
-    public $transaksi_temp = [], $total, $jml_bayar, $kembalian;
+    public $transaksi_temp = [], $total, $jml_bayar, $kembalian, $proses_id=0;
 
     public function mount(){
         // $trans = DB::table('transaksi')->select('id')->orderBy('created_at','DESC')->first();
@@ -112,6 +113,8 @@ class RestockBarang extends Component
                 'bayar' => $this->jml_bayar,
                 'kembalian' => $this->kembalian
             ]);
+
+            $this->proses_id = Crypt::encrypt($transaksi->id);
             
             foreach($this->transaksi_temp as $value){
                 DB::table('detail_transaksi')->insert([
@@ -127,13 +130,32 @@ class RestockBarang extends Component
                 $data = DB::table('spareparts')->where('code',$value['kode'])->first();
                 $stok = $data->stok + $value['jumlah'];
                 DB::table('spareparts')->where('code',$value['kode'])->update([
-                    'stok' => $stok
+                    'stok' => $stok,
+                    'buying_price' => $value['harga']
                 ]);
                 
             }
-            
+            $this->empty();
             $this->dispatch('show-alert');
         });
+    }
+
+    public function empty(){
+        $this->no_transaksi = GlobalHelper::generateInvoiceNumber('masuk');
+        $this->tgl_transaksi = null;
+        $this->supplier = null;
+        $this->keterangan = null;
+        $this->kode_sparepart = null;
+        $this->nama_sparepart= null;
+        $this->buying_price=null;
+        $this->jumlah=null;
+        $this->stok = null;
+        $this->transaksi_temp = [];
+        $this->total = null;
+        $this->jml_bayar=null;
+        $this->kembalian=null;
+        $this->proses_id=0;
+
     }
 
     public function deleteTemp($key){
