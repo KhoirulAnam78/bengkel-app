@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class CrudSpareparts extends Component
 {
-    public $code, $name, $satuan,$buying_price,$selling_price,$stok,$descriptions, $id_jenis;
+    public $code, $name, $satuan,$buying_price,$selling_price,$stok,$descriptions, $id_jenis,$reseller_price;
     public $proses_id;
 
     public function rules()
@@ -57,6 +57,7 @@ class CrudSpareparts extends Component
         $this->satuan = null;
         $this->buying_price = null;
         $this->selling_price = null;
+        $this->reseller_price = null;
         $this->descriptions = null;
         $this->stok = null;
         $this->id_jenis= null;
@@ -75,6 +76,7 @@ class CrudSpareparts extends Component
             'stok' => $this->stok,
             'id_jenis' => $this->id_jenis,
             'descriptions' => $this->descriptions,
+            'reseller_price' => $this->reseller_price
         ]);
         $this->empty();
         
@@ -94,6 +96,7 @@ class CrudSpareparts extends Component
         $this->stok = $data->stok;
         $this->id_jenis = $data->id_jenis;
         $this->descriptions = $data->descriptions;
+        $this->reseller_price =$this->reseller_price;
         $this->dispatch('show-modal-edit');
     }
 
@@ -112,6 +115,7 @@ class CrudSpareparts extends Component
             'stok' => $this->stok,
             'id_jenis' => $this->id_jenis,
             'descriptions' => $this->descriptions,
+            'reseller_price' => $this->reseller_price
         ]);
         $this->dispatch('close-modal-edit',['info' => 'Berhasil', 'message' => 'Berhasil mengubah data!']);
         $this->dispatch('update-datatable');

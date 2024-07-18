@@ -3,12 +3,19 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use App\Exports\ExportJenisMotor;
+use App\Imports\ImportJenisMotor;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CrudJenisMotor extends Component
 {
     public $code, $name,$descriptions;
     public $proses_id;
+    public $file;
+
+    use WithFileUploads;
 
     public function rules()
     {
@@ -29,6 +36,7 @@ class CrudJenisMotor extends Component
         'code.required' => 'Kode jenis motor wajib diisi !',
         'code.unique' => 'Kode sudah dipakai untuk jenis motor lain',
         'name.required' => 'Nama jenis motor wajib diisi !',
+        'file.required' => 'Upload file excel terlebih dahulu !'
     ];
 
     public function updated($propertyName)
@@ -82,6 +90,33 @@ class CrudJenisMotor extends Component
     public function showDelete($id){
         $this->proses_id = $id;
         $this->dispatch('show-delete-modal');
+    }
+
+    public function import(){
+        $this->validate([
+            'file' => 'required|file|mimes:xls,xlsx,csv'
+        ]);
+        try {
+            Excel::import(new ImportJenisMotor(), $this->file);
+            //code...
+            $this->dispatch('close-modal-import',['info' => 'Berhasil', 'message' => 'Berhasil mengimport data!']);
+            $this->dispatch('update-datatable');
+        } catch (\Throwable $th) {
+            $this->dispatch('close-modal-import',['info' => 'Gagal', 'message' => 'Gagal mengimport data !, '. $th]);
+        }
+        
+        
+    }
+
+    public function export(){
+        try {
+            return Excel::download(new ExportJenisMotor(), 'data-jenis-motor.xlsx');
+            $this->dispatch('alert',['info' => 'Gagal', 'message' => 'Berhasil mengexport data !']);
+        } catch (\Throwable $th) {
+            $this->dispatch('alert',['info' => 'Gagal', 'message' => 'Gagal mengexport data !, '. $th]);
+        }
+        
+        
     }
 
     public function delete(){

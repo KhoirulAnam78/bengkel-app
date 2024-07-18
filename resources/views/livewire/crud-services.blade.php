@@ -1,8 +1,21 @@
 <div>
-    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-form-add">
-        <i class="ri-add-line"></i>
-        Tambah Service
-    </button>
+    <div class="row">
+        <div class="col-lg-6 col-sm-12">
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-form-add">
+                <i class="ri-add-line"></i>
+                Tambah Service
+            </button>
+            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                data-bs-target="#modal-form-import">
+                <i class="ri-add-line"></i>
+                Import Data
+            </button>
+            <button type="button" class="btn btn-info btn-sm" wire:click="export" wire:target="export">
+                <span wire:loading.remove wire:target="export">Export Data</span>
+                <span wire:loading wire:target="export">Mohon Tunggu...</span>
+            </button>
+        </div>
+    </div>
     <div class="div mt-3" wire:ignore>
         <div class="table-responsive">
             <table id="example" class="table table-bordered table-striped align-middle" style="width:100%">
@@ -42,6 +55,23 @@
                 icon: "success",
             });
         });
+
+        document.addEventListener('close-modal-import', function(e) {
+            $('#modal-form-import').modal('hide');
+            Swal.fire({
+                title: e.detail[0].info,
+                text: e.detail[0].message,
+                icon: "success",
+            });
+        });
+
+        document.addEventListener('alert', function(e) {
+            Swal.fire({
+                title: e.detail[0].info,
+                text: e.detail[0].message,
+                icon: "success",
+            });
+        })
 
         document.addEventListener('show-modal-edit', function(e) {
             $('#modal-form-edit').modal('show');

@@ -3,12 +3,19 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use App\Exports\ExportService;
+use App\Imports\ImportService;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CrudServices extends Component
 {
     public $code, $name, $price,$descriptions;
     public $proses_id;
+    public $file;
+
+    use WithFileUploads;
 
     public function rules()
     {
@@ -33,6 +40,7 @@ class CrudServices extends Component
         'price.required' => 'Harga modal harus diisi !',
         'price.integer' => 'Harga modal harus berupa angka !',
         'name.required' => 'Nama sparepart wajib diisi !',
+        'file.required' => 'Upload file excel terlebih dahulu !'
     ];
 
     public function updated($propertyName)
@@ -47,6 +55,33 @@ class CrudServices extends Component
         $this->descriptions = null;
         $this->resetErrorBag();
         $this->resetValidation();
+    }
+
+    public function import(){
+        $this->validate([
+            'file' => 'required|file|mimes:xls,xlsx,csv'
+        ]);
+        try {
+            Excel::import(new ImportService(), $this->file);
+            //code...
+            $this->dispatch('close-modal-import',['info' => 'Berhasil', 'message' => 'Berhasil mengimport data!']);
+            $this->dispatch('update-datatable');
+        } catch (\Throwable $th) {
+            $this->dispatch('close-modal-import',['info' => 'Gagal', 'message' => 'Gagal mengimport data !, '. $th]);
+        }
+        
+        
+    }
+
+    public function export(){
+        try {
+            return Excel::download(new ExportService(), 'data-layanan-service.xlsx');
+            $this->dispatch('alert',['info' => 'Gagal', 'message' => 'Berhasil mengexport data !']);
+        } catch (\Throwable $th) {
+            $this->dispatch('alert',['info' => 'Gagal', 'message' => 'Gagal mengexport data !, '. $th]);
+        }
+        
+        
     }
 
     public function save(){

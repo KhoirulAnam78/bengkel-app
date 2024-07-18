@@ -13,6 +13,7 @@ class CrudTransaksiBengkel extends Component
     public $no_transaksi, $tgl_transaksi, $nama_pelanggan, $keterangan;
     public $kode_sparepart, $nama_sparepart, $selling_price, $jumlah, $stok;
     public $kode_service,$nama_service, $harga_service, $diskon, $mekanik;
+    public $is_reseller=0;
 
     public $transaksi_temp = [], $total, $jml_bayar, $kembalian;
     public $proses_id=0;
@@ -35,6 +36,7 @@ class CrudTransaksiBengkel extends Component
             'no_transaksi' => 'required|unique:transaksi,no_transaksi',
             'tgl_transaksi' => 'required',
             'nama_pelanggan' => 'required',
+            'is_reseller' => 'required',
             'keterangan' => 'nullable',
         ];
 
@@ -68,7 +70,24 @@ class CrudTransaksiBengkel extends Component
     public function updatedKodeSparepart(){
         $sparepart = DB::table('spareparts')->where('code',$this->kode_sparepart)->first();
         if($sparepart){
-            $this->selling_price = $sparepart->selling_price;
+            if($this->is_reseller != 1){
+                $this->selling_price = $sparepart->selling_price;
+            }else{
+                $this->selling_price = $sparepart->reseller_price;
+            }
+            $this->nama_sparepart = $sparepart->name;
+            $this->stok = $sparepart->stok;
+        }
+    }
+
+    public function updatedIsReseller(){
+        $sparepart = DB::table('spareparts')->where('code',$this->kode_sparepart)->first();
+        if($sparepart){
+            if($this->is_reseller != 1){
+                $this->selling_price = $sparepart->selling_price;
+            }else{
+                $this->selling_price = $sparepart->reseller_price;
+            }
             $this->nama_sparepart = $sparepart->name;
             $this->stok = $sparepart->stok;
         }
@@ -167,7 +186,8 @@ class CrudTransaksiBengkel extends Component
                 'total' => $this->total,
                 'jenis_transaksi' => 'keluar',
                 'bayar' => $this->jml_bayar,
-                'kembalian' => $this->kembalian
+                'kembalian' => $this->kembalian,
+                'is_reseller' => $this->is_reseller
             ]);
             $this->proses_id = Crypt::encrypt($transaksi->id);
             

@@ -127,3 +127,59 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+<div id="modal-form-import" class="modal fade" tabindex="-1" wire:ignore.self aria-labelledby="modal-form-import"
+    data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form>
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-form-import">Tambah Data Jenis Motor </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        wire:click="empty()"> </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="file" class="form-label">Upload File Excel</label>
+                        <input type="file" accept=".xlsx,.xls,.csv" class="form-control" wire:model="file">
+                        <x-form.validation.error name="file" />
+                    </div>
+                    <span class="text-success" wire:target="file" wire:loading>Mengupload...</span>
+                    <div class="mb-3">
+                        <span>Siapkan data dengan format seperti berikut !</span>
+                        <br>
+                        <span>Catatan : *Kolom keterangan boleh kosong</span>
+                        <table class="table table-bordered">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <td>Kode</td>
+                                    <td>Nama</td>
+                                    <td>Keterangan</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>001</td>
+                                    <td>Honda</td>
+                                    <td>Motor Honda</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal"
+                        wire:click="empty()">Close</button>
+                    <span wire:click="import()" class="btn btn-primary" iwre:target="import"
+                        wire:loading.class="disabled">
+                        <span wire:loading.remove wire:target="import">Import</span>
+                        <span wire:loading wire:target="import">Proses...</span>
+                    </span>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

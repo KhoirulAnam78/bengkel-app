@@ -11,10 +11,7 @@ class SparepartController extends Controller
     public function index(Request $request)
     {
         if($request->ajax()){
-            $query = DB::table('spareparts as a')
-            ->when(!$request->get('order')[0]['column'], function($q){
-                $q->orderBy('code');
-            });
+            $query = Sparepart::query();
             
             return DataTables::of($query)
             ->addIndexColumn()

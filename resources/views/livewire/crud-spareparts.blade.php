@@ -1,8 +1,22 @@
 <div>
-    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-form-add">
-        <i class="ri-add-line"></i>
-        Tambah Sparepart
-    </button>
+    <div class="row">
+        <div class="col-lg-6 col-sm-12">
+            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-form-add">
+                <i class="ri-add-line"></i>
+                Tambah Sparepart
+            </button>
+            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                data-bs-target="#modal-form-import">
+                <i class="ri-add-line"></i>
+                Import Data
+            </button>
+            <button type="button" class="btn btn-info btn-sm" wire:click="export" wire:target="export">
+                <span wire:loading.remove wire:target="export">Export Data</span>
+                <span wire:loading wire:target="export">Mohon Tunggu...</span>
+            </button>
+        </div>
+    </div>
+
     <div class="div mt-3" wire:ignore>
         <div class="table-responsive">
             <table id="example" class="table table-bordered table-striped align-middle" style="width:100%">
@@ -12,6 +26,7 @@
                         <th>Kode Barang</th>
                         <th>Nama Barang</th>
                         <th>Harga</th>
+                        <th>Harga Reseller</th>
                         <th>Satuan</th>
                         <th>Keterangan</th>
                         <th>Stok</th>
@@ -89,14 +104,20 @@
                     name: 'code'
                 },
                 {
-                    data: 'spareparts.name',
-                    name: 'spareparts.name',
+                    data: 'name',
+                    name: 'name',
                     orderable: true,
                     searchable: true,
                 },
                 {
                     data: 'price',
                     name: 'price',
+                    orderable: false,
+                    searchable: false,
+                },
+                {
+                    data: 'reseller_price',
+                    name: 'reseller_price',
                     orderable: false,
                     searchable: false,
                 },
@@ -149,14 +170,20 @@
                         name: 'code'
                     },
                     {
-                        data: 'spareparts.name',
-                        name: 'spareparts.name',
+                        data: 'name',
+                        name: 'name',
                         orderable: true,
                         searchable: true,
                     },
                     {
                         data: 'price',
                         name: 'price',
+                        orderable: false,
+                        searchable: false,
+                    },
+                    {
+                        data: 'reseller_price',
+                        name: 'reseller_price',
                         orderable: false,
                         searchable: false,
                     },

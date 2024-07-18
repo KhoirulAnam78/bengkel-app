@@ -30,11 +30,22 @@
                 </div>
                 <div class="col-lg-6 col-sm-12">
                     <div class="mb-2">
+                        <label for="is_reseller" class="form-label">Apakah pelanggan adalah reseller ?</label>
+                        <select name="is_reseller" id="is_reseller" class="form-select" wire:model.live='is_reseller'>
+                            <option value="0">Tidak</option>
+                            <option value="1">Ya</option>
+                        </select>
+                        <x-form.validation.error name="is_reseller" />
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-12">
+                    <div class="mb-2">
                         <label for="keterangan" class="form-label">Keterangan (boleh kosong)</label>
                         <textarea name="keterangan" id="keterangan" class="form-control" rows="3" wire:model.live="keterangan"></textarea>
                         <x-form.validation.error name="keterangan" />
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -68,7 +79,8 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="mb-2">
-                                <label for="selling_price" class="form-label">Harga Jual (Rp)</label>
+                                <label for="selling_price" class="form-label">Harga Jual
+                                    {{ $is_reseller ? 'Reseller' : '' }} (Rp)</label>
                                 <input type="text" class="form-control" wire:model.live="selling_price">
                                 <x-form.validation.error name="selling_price" />
                             </div>
