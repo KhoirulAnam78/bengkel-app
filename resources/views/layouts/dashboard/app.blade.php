@@ -2,10 +2,15 @@
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark"
     data-layout-mode="{{ session()->get('mode') }}" data-sidebar-size="lg">
 
+@php
+    use App\Models\Setting;
+    $setting = Setting::where('name', 'app_name')->first();
+@endphp
+
 <head>
 
     <meta charset="utf-8" />
-    <title>@yield('title') | {{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title') | {{ $setting->data }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -192,11 +197,11 @@
                         <div class="col-sm-6">
                             <script>
                                 document.write(new Date().getFullYear())
-                            </script> © Velzon.
+                            </script> © {{ $setting->data ?? 'Copyright' }}
                         </div>
                         <div class="col-sm-6">
                             <div class="text-sm-end d-none d-sm-block">
-                                Design & Develop by Themesbrand
+                                Developer : khoirulanam4580@gmail.com
                             </div>
                         </div>
                     </div>

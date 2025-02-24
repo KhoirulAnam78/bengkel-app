@@ -271,14 +271,15 @@
                         <table class="table table-bordered">
                             <thead class="bg-primary text-white">
                                 <tr>
-                                    <td>Kode</td>
-                                    <td>Nama</td>
-                                    <td>Satuan</td>
-                                    <td>Jenis Motor</td>
-                                    <td>Harga Modal</td>
-                                    <td>Harga Jual</td>
-                                    <td>Harga Reseller</td>
-                                    <td>Keterangan</td>
+                                    <td>kode</td>
+                                    <td>nama</td>
+                                    <td>satuan</td>
+                                    <td>kode_motor</td>
+                                    <td>harga_beli</td>
+                                    <td>harga_jual</td>
+                                    <td>harga_reseller</td>
+                                    <td>stok</td>
+                                    <td>keterangan</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -286,10 +287,11 @@
                                     <td>001</td>
                                     <td>Oli Mpx</td>
                                     <td>Botol</td>
-                                    <td>Honda</td>
+                                    <td>002</td>
                                     <td>50000</td>
                                     <td>60000</td>
                                     <td>55000</td>
+                                    <td>10</td>
                                     <td>-</td>
                                 </tr>
                             </tbody>

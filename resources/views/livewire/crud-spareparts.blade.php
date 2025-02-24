@@ -60,6 +60,15 @@
             });
         });
 
+        document.addEventListener('close-modal-import', function(e) {
+            $('#modal-form-import').modal('hide');
+            Swal.fire({
+                title: e.detail[0].info,
+                text: e.detail[0].message,
+                icon: "success",
+            });
+        });
+
         document.addEventListener('show-modal-edit', function(e) {
             $('#modal-form-edit').modal('show');
         });

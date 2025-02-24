@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -12,17 +11,28 @@ class DashboardController extends Controller
     public function index()
     {
         $user = auth()->user();
-        return view('dashboard.index',compact('user'));
+        $transaksi_hari_ini = DB::table('transaksi')->whereDate('tgl_transaksi', date('Y-m-d'))
+            ->where('jenis_transaksi', 'masuk')->count();
+        $penghasilan = DB::table('transaksi')->whereDate('tgl_transaksi', date('Y-m-d'))
+            ->where('jenis_transaksi', 'masuk')->sum('total');
+
+        $pengeluaran_hari_ini = DB::table('transaksi')->whereDate('tgl_transaksi', date('Y-m-d'))
+            ->where('jenis_transaksi', 'keluar')->count();
+        $pengeluaran = DB::table('transaksi')->whereDate('tgl_transaksi', date('Y-m-d'))
+            ->where('jenis_transaksi', 'keluar')->sum('total');
+
+        return view('dashboard.index', compact('user', 'transaksi_hari_ini', 'penghasilan', 'pengeluaran_hari_ini', 'pengeluaran'));
     }
 
-    public function mode(){
-        if(!session()->has('mode')){
-            session()->put('mode','dark');
-        }else{
-            if(session()->get('mode')=='light'){
-                session()->put('mode','dark');
-            }else{
-                session()->put('mode','light');
+    public function mode()
+    {
+        if (!session()->has('mode')) {
+            session()->put('mode', 'dark');
+        } else {
+            if (session()->get('mode') == 'light') {
+                session()->put('mode', 'dark');
+            } else {
+                session()->put('mode', 'light');
             }
         }
         return redirect()->back();
