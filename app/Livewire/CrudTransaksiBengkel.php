@@ -1,24 +1,24 @@
 <?php
-
 namespace App\Livewire;
 
-use Livewire\Component;
-use App\Models\Transaksi;
 use App\Helper\GlobalHelper;
-use Illuminate\Support\Facades\DB;
+use App\Models\Transaksi;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
+use Livewire\Component;
 
 class CrudTransaksiBengkel extends Component
 {
     public $no_transaksi, $tgl_transaksi, $nama_pelanggan, $keterangan;
     public $kode_sparepart, $nama_sparepart, $selling_price, $jumlah, $stok;
-    public $kode_service,$nama_service, $harga_service, $diskon, $mekanik;
-    public $is_reseller=0;
+    public $kode_service, $nama_service, $harga_service, $diskon, $mekanik;
+    public $is_reseller = 0;
 
     public $transaksi_temp = [], $total, $jml_bayar, $kembalian;
-    public $proses_id=0;
+    public $proses_id = 0;
 
-    public function mount(){
+    public function mount()
+    {
         // $trans = DB::table('transaksi')->select('id')->orderBy('created_at','DESC')->first();
         // if($trans){
         //     $this->no_transaksi= 'IJM-TRANS-000000000000000'. $trans->id + 1;
@@ -30,26 +30,27 @@ class CrudTransaksiBengkel extends Component
         // dd($this->no_transaksi);
         // $this->no_transaksi = $id;
     }
-    public function rules(){
+    public function rules()
+    {
 
-        $validations =  [
+        $validations = [
             'no_transaksi' => 'required|unique:transaksi,no_transaksi',
             'tgl_transaksi' => 'required',
-            'nama_pelanggan' => 'required',
+            'nama_pelanggan' => 'nullable',
             'is_reseller' => 'required',
             'keterangan' => 'nullable',
         ];
 
-        if($this->kode_sparepart){
+        if ($this->kode_sparepart) {
             $validations['kode_sparepart'] = 'required';
             $validations['selling_price'] = 'required';
             $validations['jumlah'] = 'required';
         }
-        
-        if($this->kode_service){
+
+        if ($this->kode_service) {
             $validations['kode_service'] = 'required';
             $validations['harga_service'] = 'required';
-            $validations['mekanik'] ='required';
+            $validations['mekanik'] = 'required';
         }
     }
 
@@ -64,15 +65,16 @@ class CrudTransaksiBengkel extends Component
         'kode_service.required' => 'Jasa service tidak boleh kosong !',
         'harga_service.required' => 'Harga service tidak boleh kosong !',
         'mekanik.required' => 'Mekanik tidak boleh kosong !',
-        'transaksi_temp.required' => 'Harus ada minimal satu transaksi !'
+        'transaksi_temp.required' => 'Harus ada minimal satu transaksi !',
     ];
 
-    public function updatedKodeSparepart(){
-        $sparepart = DB::table('spareparts')->where('code',$this->kode_sparepart)->first();
-        if($sparepart){
-            if($this->is_reseller != 1){
+    public function updatedKodeSparepart()
+    {
+        $sparepart = DB::table('spareparts')->where('code', $this->kode_sparepart)->first();
+        if ($sparepart) {
+            if ($this->is_reseller != 1) {
                 $this->selling_price = $sparepart->selling_price;
-            }else{
+            } else {
                 $this->selling_price = $sparepart->reseller_price;
             }
             $this->nama_sparepart = $sparepart->name;
@@ -80,12 +82,13 @@ class CrudTransaksiBengkel extends Component
         }
     }
 
-    public function updatedIsReseller(){
-        $sparepart = DB::table('spareparts')->where('code',$this->kode_sparepart)->first();
-        if($sparepart){
-            if($this->is_reseller != 1){
+    public function updatedIsReseller()
+    {
+        $sparepart = DB::table('spareparts')->where('code', $this->kode_sparepart)->first();
+        if ($sparepart) {
+            if ($this->is_reseller != 1) {
                 $this->selling_price = $sparepart->selling_price;
-            }else{
+            } else {
                 $this->selling_price = $sparepart->reseller_price;
             }
             $this->nama_sparepart = $sparepart->name;
@@ -93,14 +96,15 @@ class CrudTransaksiBengkel extends Component
         }
     }
 
-    public function tambahSparepart(){
+    public function tambahSparepart()
+    {
         $this->validate([
             'kode_sparepart' => 'required',
             'selling_price' => 'required',
-            'jumlah' => 'required'
+            'jumlah' => 'required',
         ]);
 
-        $subtotal = (int)$this->jumlah * $this->selling_price;
+        $subtotal = (int) $this->jumlah * $this->selling_price;
         $this->transaksi_temp[] = [
             'jenis' => 'sparepart',
             'kode' => $this->kode_sparepart,
@@ -109,7 +113,7 @@ class CrudTransaksiBengkel extends Component
             'jumlah' => $this->jumlah,
             'mekanik' => null,
             'sub_total' => $subtotal,
-            'keterangan' => '-'
+            'keterangan' => '-',
         ];
         $this->total = $this->total + $subtotal;
         $this->updatedJmlBayar();
@@ -120,7 +124,8 @@ class CrudTransaksiBengkel extends Component
         $this->dispatch('empty-sparepart-form');
     }
 
-    public function empty(){
+    public function empty()
+    {
         $this->kode_sparepart = null;
         $this->selling_price = null;
         $this->jumlah = null;
@@ -130,22 +135,24 @@ class CrudTransaksiBengkel extends Component
         $this->harga_service = null;
     }
 
-    public function updatedKodeService(){
-        $service = DB::table('services')->where('code',$this->kode_service)->first();
-        if($service){
+    public function updatedKodeService()
+    {
+        $service = DB::table('services')->where('code', $this->kode_service)->first();
+        if ($service) {
             $this->harga_service = $service->price;
             $this->nama_service = $service->name;
         }
     }
-    
-    public function tambahService(){
+
+    public function tambahService()
+    {
         $this->validate([
             'kode_service' => 'required',
             'harga_service' => 'required',
-            'mekanik' => 'required'
+            'mekanik' => 'required',
         ]);
-        
-        $mekanik = DB::table('mekanik')->where('id',$this->mekanik)->first();
+
+        $mekanik = DB::table('mekanik')->where('id', $this->mekanik)->first();
 
         $this->transaksi_temp[] = [
             'jenis' => 'service',
@@ -155,7 +162,7 @@ class CrudTransaksiBengkel extends Component
             'jumlah' => 1,
             'mekanik' => $this->mekanik,
             'sub_total' => $this->harga_service,
-            'keterangan' => 'Mekanik : '.$mekanik->name
+            'keterangan' => 'Mekanik : ' . $mekanik->name,
         ];
 
         $this->total = $this->total + $this->harga_service;
@@ -166,32 +173,33 @@ class CrudTransaksiBengkel extends Component
         $this->dispatch('empty-service-form');
     }
 
-    public function proses(){
+    public function proses()
+    {
         $this->validate([
             'no_transaksi' => 'required|unique:transaksi,no_transaksi',
             'tgl_transaksi' => 'required',
-            'nama_pelanggan' => 'required',
+            'nama_pelanggan' => 'nullable',
             'keterangan' => 'nullable',
-            'transaksi_temp' => 'required'
+            'transaksi_temp' => 'required',
         ]);
-        
+
         DB::transaction(function () {
             $tgl = date('H:i:s');
             // INPUT TRANSACTION
             $transaksi = Transaksi::create([
                 'no_transaksi' => $this->no_transaksi,
-                'tgl_transaksi' => $this->tgl_transaksi.' '.$tgl,
+                'tgl_transaksi' => $this->tgl_transaksi . ' ' . $tgl,
                 'nama_pelanggan' => $this->nama_pelanggan,
                 'keterangan' => $this->keterangan,
                 'total' => $this->total,
                 'jenis_transaksi' => 'keluar',
                 'bayar' => $this->jml_bayar,
                 'kembalian' => $this->kembalian,
-                'is_reseller' => $this->is_reseller
+                'is_reseller' => $this->is_reseller,
             ]);
             $this->proses_id = Crypt::encrypt($transaksi->id);
-            
-            foreach($this->transaksi_temp as $value){
+
+            foreach ($this->transaksi_temp as $value) {
                 DB::table('detail_transaksi')->insert([
                     'id_transaksi' => $transaksi->id,
                     'jenis' => $value['jenis'],
@@ -200,35 +208,37 @@ class CrudTransaksiBengkel extends Component
                     'harga' => $value['harga'],
                     'jumlah' => $value['jumlah'],
                     'sub_total' => $value['sub_total'],
-                    'id_mekanik' => $this->mekanik
+                    'id_mekanik' => $this->mekanik,
                 ]);
 
-                if($value['jenis']=='sparepart'){
-                    $data = DB::table('spareparts')->where('code',$value['kode'])->first();
+                if ($value['jenis'] == 'sparepart') {
+                    $data = DB::table('spareparts')->where('code', $value['kode'])->first();
                     $stok = $data->stok - $value['jumlah'];
-                    DB::table('spareparts')->where('code',$value['kode'])->update([
-                        'stok' => $stok
+                    DB::table('spareparts')->where('code', $value['kode'])->update([
+                        'stok' => $stok,
                     ]);
                 }
             }
-            
+
             $this->dispatch('show-alert');
         });
     }
 
-    public function deleteTemp($key){
+    public function deleteTemp($key)
+    {
         $transaksi = $this->transaksi_temp[$key];
         $this->total = $this->total - $transaksi['sub_total'];
         unset($this->transaksi_temp[$key]);
         $this->updatedJmlBayar();
     }
 
-    public function updatedJmlBayar(){
-        if($this->jml_bayar){
+    public function updatedJmlBayar()
+    {
+        if ($this->jml_bayar) {
             $this->kembalian = $this->jml_bayar - $this->total;
         }
     }
-    
+
     public function render()
     {
         return view('livewire.crud-transaksi-bengkel');

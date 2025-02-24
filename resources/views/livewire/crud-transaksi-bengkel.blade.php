@@ -23,7 +23,8 @@
             <div class="row">
                 <div class="col-lg-6 col-sm-12">
                     <div class="mb-2">
-                        <label for="nama_pelanggan" class="form-label">Nama Pelanggan</label>
+                        <label for="nama_pelanggan" class="form-label">Nama Pelanggan <span
+                                class="text-warning"><i>(boleh kosong)</i></span></label>
                         <input type="text" class="form-control" wire:model.live="nama_pelanggan">
                         <x-form.validation.error name="nama_pelanggan" />
                     </div>
@@ -40,7 +41,8 @@
                 </div>
                 <div class="col-lg-6 col-sm-12">
                     <div class="mb-2">
-                        <label for="keterangan" class="form-label">Keterangan (boleh kosong)</label>
+                        <label for="keterangan" class="form-label">Keterangan <span class="text-warning"><i>(boleh
+                                    kosong)</i></span></label>
                         <textarea name="keterangan" id="keterangan" class="form-control" rows="3" wire:model.live="keterangan"></textarea>
                         <x-form.validation.error name="keterangan" />
                     </div>

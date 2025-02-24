@@ -31,9 +31,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets-receipt') }}/css/main-style.css">
 </head>
 
-<body class="section-bg-one">
+<body class="section-bg-one" style="margin-top:0px;padding-top:3px">
 
-    <main class="container receipt-wrapper" id="download-section">
+    <main class="container receipt-wrapper" id="download-section" style="margin-top:0px;padding-top:3px">
         <div class="receipt-top" style="font-size: 12px !important">
             <div class="company-name">{{ $app_name }}</div>
             <div class="company-address">Alamat : {{ $alamat }}</div>
@@ -42,10 +42,13 @@
         <div class="receipt-body">
             <div class="receipt-heading"><span>Transaksi</span></div>
             <div class="text-list text-style1">
-                <span class="text-list-title" style="font-size:12px !important">Tanggal: {{ $transaksi->tgl_transaksi }}
+                <span class="text-list-title" style="font-size:12px !important">Tanggal :
+                    {{ $transaksi->tgl_transaksi }}
                     <br>
-                    {{ $transaksi->jenis_transaksi == 'keluar' ? 'Pelanggan:' : 'Supplier' }}
-                    {{ $transaksi->nama_pelanggan }} <br> Keterangan: {{ $transaksi->keterangan }} <br> No Transaksi:
+                    {{ $transaksi->jenis_transaksi == 'keluar' ? 'Pelanggan :' : 'Supplier :' }}
+                    {{ $transaksi->nama_pelanggan ?? '-' }} <br> Keterangan : {{ $transaksi->keterangan ?? '-' }} <br>
+                    No
+                    Transaksi :
                     {{ $transaksi->no_transaksi }}</span>
             </div>
             <table class="receipt-table" style="font-size:12px !important">
