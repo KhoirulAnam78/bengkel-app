@@ -3,94 +3,91 @@
  * ---------------------------------------------------------------------------*/
 
 body {
-  margin: 0;
-  width: 48mm;
+    margin: 0;
+    width: 48mm;
 }
 
-*, *::after, *::before {
-  box-sizing: border-box;
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
 }
 
 img {
-  display: block;
-  height: auto;
-  width:  48mm;
+    display: block;
+    height: auto;
+    width: 48mm;
 }
 
 .page {
-  padding-bottom: 5mm;
+    padding-bottom: 5mm;
 }
 
 /*
  * Screen
  */
 @media screen {
-
-  html {
-    background-color: Gainsboro;
-  }
-  body {
-    background-color: white;
-    box-shadow: 2px 2px 0px 1px #000, 0px 0px 0px 1px #000;
-    margin: 3em;
-    width: 57mm;
-    padding: 5mm 4.5mm 1pt 4.5mm;
-    position: relative;
-  }
-  body::before {
-    content: "";
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border-top: 5mm solid white;
-    border-right: 4.5mm solid white;
-    border-left:  4.5mm solid white;
-    pointer-events: none;
-  }
-
+    html {
+        background-color: Gainsboro;
+    }
+    body {
+        background-color: white;
+        box-shadow: 2px 2px 0px 1px #000, 0px 0px 0px 1px #000;
+        margin: 3em;
+        width: 57mm;
+        padding: 5mm 4.5mm 1pt 4.5mm;
+        position: relative;
+    }
+    body::before {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-top: 5mm solid white;
+        border-right: 4.5mm solid white;
+        border-left: 4.5mm solid white;
+        pointer-events: none;
+    }
 }
 
 /*
  * Print
  */
 @media print {
+    @page {
+        margin: 0;
+    }
 
-  @page
-  {
-    margin: 0;
-  }
+    html,
+    body {
+        background-color: transparent;
+    }
 
-  html,
-  body {
-    background-color: transparent;
-  }
+    body {
+        padding: 1pt 0pt;
+    }
 
-  body {
-    padding: 1pt 0pt;
-  }
+    .page::before {
+        content: "--";
+        font-size: 6pt;
+        line-height: 1pt;
+        display: block;
+        text-align: left;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 
-  .page::before {
-    content: "--";
-    font-size: 6pt;
-    line-height: 1pt;
-    display: block;
-    text-align: left;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-
-  body::after {
-    display: block;
-    content: "--";
-    font-size: 6pt;
-    line-height: 1pt;
-    text-align: left;
-  }
-
+    body::after {
+        display: block;
+        content: "--";
+        font-size: 6pt;
+        line-height: 1pt;
+        text-align: left;
+    }
 }
 
 /* =Theme
