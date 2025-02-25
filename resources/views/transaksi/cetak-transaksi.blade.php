@@ -7,6 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ asset('receipt/style.css') }}">
     <title>Transaksi-{{ $transaksi->no_transaksi }}</title>
+    <style>
+        @media print {
+            @page {
+                size: 80mm 110mm;
+                margin: 0mm;
+            }
+
+            *,
+            *: before,
+            *: after {
+                box - sizing: border - box;
+            }
+        }
+    </style>
 </head>
 
 <body>
