@@ -3,121 +3,77 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="description"
-        content="different types of invoice/bill/tally designed with friendly and markup using modern technology, you can use it on any type of website invoice, fully responsive and w3 validated.">
-    <meta name="keywords"
-        content="bill , receipt, tally, invoice, cash memo, invoice html, invoice pdf, invoice print, invoice templates, multipurpose invoice, template, booking invoice, general invoice, clean invoice, catalog, estimate, proposal">
-    <meta name="author" content="initTheme">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ asset('receipt/style.css') }}">
     <title>Transaksi-{{ $transaksi->no_transaksi }}</title>
-    <link rel="shortcut icon" href="{{ asset('assets/images/logo-ijm.png') }}">
-    <style>
-        @media print {
-            @page {
-                size: 80mm 110mm;
-                margin: 0mm;
-            }
-
-            *,
-            *: before,
-            *: after {
-                box - sizing: border - box;
-            }
-        }
-    </style>
-    <!-- Style -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets-receipt') }}/css/main-style.css">
 </head>
 
-<body class="section-bg-one" style="margin-top:0px;padding-top:3px">
-
-    <main class="container receipt-wrapper" id="download-section" style="margin-top:0px;padding-top:3px">
-        <div class="receipt-top" style="font-size: 12px !important">
-            <div class="company-name">{{ $app_name }}</div>
-            <div class="company-address">Alamat : {{ $alamat }}</div>
-            <div class="company-mobile">Kontak : {{ $no_hp }}</div>
-        </div>
-        <div class="receipt-body">
-            <div class="receipt-heading"><span>Transaksi</span></div>
-            <div class="text-list text-style1">
-                <span class="text-list-title" style="font-size:12px !important">Tanggal :
-                    {{ $transaksi->tgl_transaksi }}
-                    <br>
-                    {{ $transaksi->jenis_transaksi == 'keluar' ? 'Pelanggan :' : 'Supplier :' }}
-                    {{ $transaksi->nama_pelanggan ?? '-' }} <br> Keterangan : {{ $transaksi->keterangan ?? '-' }} <br>
-                    No
-                    Transaksi :
-                    {{ $transaksi->no_transaksi }}</span>
-            </div>
-            <table class="receipt-table" style="font-size:12px !important">
-                <thead>
+<body>
+    <div class="ticket">
+        <p class="centered">{{ $app_name }}
+            <br>Alamat : {{ $alamat }}
+            <br>Kontak : {{ $no_hp }}
+        </p>
+        <span style="font-size:10px !important">Tanggal :
+            {{ $transaksi->tgl_transaksi }}
+            <br>
+            {{ $transaksi->jenis_transaksi == 'keluar' ? 'Pelanggan :' : 'Supplier :' }}
+            {{ $transaksi->nama_pelanggan ?? '-' }} <br> Keterangan : {{ $transaksi->keterangan ?? '-' }} <br>
+            No
+            Transaksi :
+            {{ $transaksi->no_transaksi }}
+        </span>
+        <table>
+            <thead>
+                <tr>
+                    <th style="font-size:10px !important">Nama</th>
+                    <th style="font-size:10px !important">Harga</th>
+                    <th style="font-size:10px !important">Jumlah</th>
+                    <th style="font-size:10px !important">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($detailTrans as $t)
                     <tr>
-                        <th>Nama</th>
-                        <th>Harga</th>
-                        <th>Jumlah</th>
-                        <th>Subtotal</th>
+                        <td style="font-size:10px !important">{{ $t->name }}</td>
+                        <td style="font-size:10px !important">{{ $t->harga }}</td>
+                        <td style="font-size:10px !important">{{ $t->jumlah }}</td>
+                        <td style="font-size:10px !important">Rp.{{ $t->sub_total }}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach ($detailTrans as $t)
-                        <tr>
-                            <td>{{ $t->name }}</td>
-                            <td>{{ $t->harga }}</td>
-                            <td>{{ $t->jumlah }}</td>
-                            <td>Rp.{{ $t->sub_total }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
+                @endforeach
+
+
+            </tbody>
+        </table>
+
+        @if ($transaksi->jenis_transaksi == 'keluar')
+            <table>
+                <tr>
+                    <td>Total Harga :</td>
+                    <td>Rp.{{ $transaksi->total }}</td>
+                </tr>
+                <tr>
+                    <td>Total Bayar : </td>
+                    <td>Rp.{{ $transaksi->bayar }}</td>
+                </tr>
+                <tr>
+                    <td>Kembalian :</td>
+                    <td>Rp.{{ $transaksi->kembalian }}</td>
+                </tr>
             </table>
-            <div class="text-bill-list mb-15" style="font-size:12px !important">
-                <div class="text-bill-list-in">
-                    <div class="text-bill-title">Total Harga:</div>
-                    <div class="text-bill-value">Rp.{{ $transaksi->total }}</div>
-                </div>
-                @if ($transaksi->jenis_transaksi == 'keluar')
-                    <div class="text-bill-list-in">
-                        <div class="text-bill-title">Total Bayar: </div>
-                        <div class="text-bill-value">Rp.{{ $transaksi->bayar }}</div>
-                    </div>
-                    <div class="text-receipt-seperator"></div>
-                    <div class="text-bill-list-in">
-                        <div class="text-bill-title">Kembalian:</div>
-                        <div class="text-bill-value">Rp.{{ $transaksi->kembalian }}</div>
-                    </div>
-                @endif
+        @endif
+        @if ($transaksi->jenis_transaksi == 'keluar')
+            <div>
+                <h4 style="font-size: 14px"> Terimakasih </h4>
+                {{-- <p>Jangan lupa kembali lagi.</p> --}}
             </div>
-
-
-            @if ($transaksi->jenis_transaksi == 'keluar')
-                <div class="mb-10">
-                    <h4 class="mb-2 text-title font-700 text-border" style="font-size: 14px"> Terimakasih </h4>
-                    {{-- <p>Jangan lupa kembali lagi.</p> --}}
-                </div>
-            @endif
-            {{-- <!-- Return Policy -->
-        
-            
-
-            <!-- Recycle Offer -->
-            <div class="mb-0">
-                <h4 class="mb-2 text-title font-700 text-border"> Recycle Offer </h4>
-                <p>Recycle shopping bag & get cash for each bag and discount on your purchase </p>
-            </div> --}}
-        </div>
-    </main>
-
+        @endif
+    </div>
     <script>
         window.print();
     </script>
-
-    <!-- jquery-->
-    <script src="{{ asset('assets-receipt') }}/js/jquery-3.7.0.min.js"></script>
-    <!-- Plugin -->
-    <script src="{{ asset('assets-receipt') }}/js/plugin.js"></script>
-    <!-- Main js-->
-    <script src="{{ asset('assets-receipt') }}/js/mian.js"></script>
+    <script src="{{ asset('receipt/script.js') }}"></script>
 </body>
 
 </html>
