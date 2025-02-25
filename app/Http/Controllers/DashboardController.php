@@ -12,14 +12,14 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
         $transaksi_hari_ini = DB::table('transaksi')->whereDate('tgl_transaksi', date('Y-m-d'))
-            ->where('jenis_transaksi', 'masuk')->count();
+            ->where('jenis_transaksi', 'keluar')->count();
         $penghasilan = DB::table('transaksi')->whereDate('tgl_transaksi', date('Y-m-d'))
-            ->where('jenis_transaksi', 'masuk')->sum('total');
+            ->where('jenis_transaksi', 'keluar')->sum('total');
 
         $pengeluaran_hari_ini = DB::table('transaksi')->whereDate('tgl_transaksi', date('Y-m-d'))
-            ->where('jenis_transaksi', 'keluar')->count();
+            ->where('jenis_transaksi', 'masuk')->count();
         $pengeluaran = DB::table('transaksi')->whereDate('tgl_transaksi', date('Y-m-d'))
-            ->where('jenis_transaksi', 'keluar')->sum('total');
+            ->where('jenis_transaksi', 'masuk')->sum('total');
 
         return view('dashboard.index', compact('user', 'transaksi_hari_ini', 'penghasilan', 'pengeluaran_hari_ini', 'pengeluaran'));
     }
