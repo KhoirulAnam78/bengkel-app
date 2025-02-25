@@ -5,26 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ asset('receipt/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('receipt/fiddle.css') }}">
     <title>Transaksi-{{ $transaksi->no_transaksi }}</title>
-    <style>
-        @media print {
-            @page {
-                size: 58mm auto;
-                margin: 0mm;
-            }
-
-            *,
-            *: before,
-            *: after {
-                box - sizing: border - box;
-            }
-        }
-    </style>
 </head>
 
 <body>
-    <div class="ticket">
+    <div class="page">
         <p class="centered" style="font-size:10px !important;">
             <b>{{ $app_name }}</b>
             <br>Alamat : {{ $alamat }}
