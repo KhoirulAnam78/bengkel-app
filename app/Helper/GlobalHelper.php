@@ -18,7 +18,10 @@ class GlobalHelper
 
             //section generate the sequence of running number of trip sheet
 
-            $lastTransactionId = Transaksi::orderBy('no_transaksi', 'desc')->where('jenis_transaksi', $jenis)->first();
+            $lastTransactionId = Transaksi::orderBy('no_transaksi', 'desc')
+                ->whereYear('tgl_transaksi', date('Y'))
+                ->whereMonth('tgl_transaksi', date('m'))
+                ->where('jenis_transaksi', $jenis)->first();
 
             if (!$lastTransactionId) {
                 $number = 0;
