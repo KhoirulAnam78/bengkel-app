@@ -10,7 +10,7 @@
     <style>
         @media print {
             @page {
-                size: 80mm 110mm;
+                size: 80mm auto;
                 margin: 0mm;
             }
 
