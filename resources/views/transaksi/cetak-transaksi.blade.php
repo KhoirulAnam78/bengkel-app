@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-    {{-- <link rel="stylesheet" href="{{ asset('receipt/fiddle.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('receipt/fiddle.css') }}">
     <title>Transaksi-{{ $transaksi->no_transaksi }}</title>
 </head>
 
