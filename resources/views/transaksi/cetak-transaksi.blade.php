@@ -11,11 +11,12 @@
 
 <body>
     <div class="ticket">
-        <p class="centered">{{ $app_name }}
+        <p class="centered" style="font-size:10px !important;">
+            <b>{{ $app_name }}</b>
             <br>Alamat : {{ $alamat }}
             <br>Kontak : {{ $no_hp }}
         </p>
-        <span style="font-size:10px !important">Tanggal :
+        <p style="font-size:10px !important; margin-bottom:5px">Tanggal :
             {{ $transaksi->tgl_transaksi }}
             <br>
             {{ $transaksi->jenis_transaksi == 'keluar' ? 'Pelanggan :' : 'Supplier :' }}
@@ -23,14 +24,14 @@
             No
             Transaksi :
             {{ $transaksi->no_transaksi }}
-        </span>
+        </p>
         <table>
             <thead>
                 <tr>
-                    <th style="font-size:10px !important">Nama</th>
-                    <th style="font-size:10px !important">Harga</th>
-                    <th style="font-size:10px !important">Jumlah</th>
-                    <th style="font-size:10px !important">Subtotal</th>
+                    <th style="font-size:10px !important" align="left">Nama</th>
+                    <th style="font-size:10px !important" align="left">Harga</th>
+                    <th style="font-size:10px !important" align="left">Jumlah</th>
+                    <th style="font-size:10px !important" align="left">Subtotal</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,22 +51,22 @@
         @if ($transaksi->jenis_transaksi == 'keluar')
             <table>
                 <tr>
-                    <td>Total Harga :</td>
-                    <td>Rp.{{ $transaksi->total }}</td>
+                    <td style="font-size:10px !important">Total Harga :</td>
+                    <td style="font-size:10px !important">Rp.{{ $transaksi->total }}</td>
                 </tr>
                 <tr>
-                    <td>Total Bayar : </td>
-                    <td>Rp.{{ $transaksi->bayar }}</td>
+                    <td style="font-size:10px !important">Total Bayar : </td>
+                    <td style="font-size:10px !important">Rp.{{ $transaksi->bayar }}</td>
                 </tr>
                 <tr>
-                    <td>Kembalian :</td>
-                    <td>Rp.{{ $transaksi->kembalian }}</td>
+                    <td style="font-size:10px !important">Kembalian :</td>
+                    <td style="font-size:10px !important">Rp.{{ $transaksi->kembalian }}</td>
                 </tr>
             </table>
         @endif
         @if ($transaksi->jenis_transaksi == 'keluar')
             <div>
-                <h4 style="font-size: 14px"> Terimakasih </h4>
+                <h4 style="font-size: 10px"> Terimakasih </h4>
                 {{-- <p>Jangan lupa kembali lagi.</p> --}}
             </div>
         @endif
