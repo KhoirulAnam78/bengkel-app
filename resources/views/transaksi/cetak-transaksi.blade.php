@@ -26,8 +26,15 @@
 
 <body>
     <div class="page" style="width: 100%">
-        <p class="centered" style="font-size:10px !important; text-align: center">
-            <b>{{ $app_name }}</b>
+        <p class="centered" style="font-size:10px !important; ">
+            @if ($app_logo)
+                {{-- {{ asset('storage/' . $app_logo->path) }} --}}
+                {{-- {{ asset('assets/images/logo-ijm.png') }} --}}
+                <img src="{{ asset('assets/images/logo-ijm.png') }}" alt="" height="{{ $app_logo->size }}"
+                    style="margin:0px;padding:0px">
+            @endif
+            <br>
+            <b style="margin:0px;padding:0px; font-size:14px">{{ $app_name }}</b>
             <br>Alamat : {{ $alamat }}
             <br>Kontak : {{ $no_hp }}
         </p>
@@ -53,7 +60,7 @@
                 @foreach ($detailTrans as $t)
                     <tr>
                         <td style="font-size:10px !important">{{ $t->name }}</td>
-                        <td style="font-size:10px !important" nowrap>{{ $t->harga }}</td>
+                        <td style="font-size:10px !important" nowrap>Rp. {{ $t->harga }}</td>
                         <td style="font-size:10px !important">{{ $t->jumlah }}</td>
                         <td style="font-size:10px !important"nowrap>Rp.{{ $t->sub_total }}</td>
                     </tr>
@@ -79,9 +86,10 @@
                 </tr>
             </table>
         @endif
+        <br>
         @if ($transaksi->jenis_transaksi == 'keluar')
             <div>
-                <h4 style="font-size: 10px"> Terimakasih </h4>
+                <b style="font-size: 10px; text-align: center"> Terimakasih </b>
                 {{-- <p>Jangan lupa kembali lagi.</p> --}}
             </div>
         @endif

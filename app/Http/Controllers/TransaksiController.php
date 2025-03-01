@@ -67,6 +67,12 @@ class TransaksiController extends Controller
             $alamat = $data->data;
         }
 
-        return view('transaksi.cetak-transaksi', compact('transaksi', 'detailTrans', 'alamat', 'app_name', 'no_hp'));
+        $logo = Setting::where('name', 'logo')->first();
+        $app_logo = null;
+        if ($logo) {
+            $app_logo = json_decode($logo->data);
+        }
+
+        return view('transaksi.cetak-transaksi', compact('transaksi', 'detailTrans', 'alamat', 'app_name', 'no_hp', 'app_logo'));
     }
 }
