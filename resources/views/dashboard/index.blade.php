@@ -70,13 +70,10 @@
                 type: 'column'
             },
             title: {
-                text: 'Transaksi Pelanggan per Bulan'
+                text: 'Transaksi Pelanggan per Bulan ' + {!! json_encode(date('Y')) !!}
             },
             xAxis: {
-                categories: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
-                    'Oktober',
-                    'November', 'Desember'
-                ],
+                categories: {!! json_encode($chartPemasukan['x']) !!},
                 crosshair: true,
                 accessibility: {
                     description: 'Bulan'
@@ -88,26 +85,27 @@
                     text: 'Jumlah dan Rupiah'
                 }
             },
-            tooltip: {
-                valueSuffix: ' (1000 MT)'
-            },
             plotOptions: {
                 column: {
                     pointPadding: 0.2,
-                    borderWidth: 0
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true, // <-- Enable data labels
+                        format: '{y}', // <-- Show value
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'black'
+                        }
+                    }
                 }
             },
             series: [{
-                    name: 'Jumlah',
-                    data: [387749, 280000, 129000, 64300, 54000, 34300, 387749, 280000, 129000, 64300, 54000,
-                        34300
-                    ]
+                    name: 'Jumlah Transaksi',
+                    data: {!! json_encode($chartPemasukan['y']) !!}
                 },
                 {
                     name: 'Penghasilan',
-                    data: [45321, 140000, 10000, 140500, 19500, 113500, 45321, 140000, 10000, 140500, 19500,
-                        113500
-                    ]
+                    data: {!! json_encode($chartPemasukan['z']) !!}
                 }
             ]
         });
@@ -118,13 +116,10 @@
                 type: 'column'
             },
             title: {
-                text: 'Pengeluaran Belanja Restock per Bulan'
+                text: 'Pengeluaran Belanja Restock per Bulan' + {!! json_encode(date('Y')) !!}
             },
             xAxis: {
-                categories: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
-                    'Oktober',
-                    'November', 'Desember'
-                ],
+                categories: {!! json_encode($chartPengeluaran['x']) !!},
                 crosshair: true,
                 accessibility: {
                     description: 'Bulan'
@@ -136,26 +131,27 @@
                     text: 'Jumlah dan Rupiah'
                 }
             },
-            tooltip: {
-                valueSuffix: ' (1000 MT)'
-            },
             plotOptions: {
                 column: {
                     pointPadding: 0.2,
-                    borderWidth: 0
+                    borderWidth: 0,
+                    dataLabels: {
+                        enabled: true, // <-- Enable data labels
+                        format: '{y}', // <-- Show value
+                        style: {
+                            fontWeight: 'bold',
+                            color: 'black'
+                        }
+                    }
                 }
             },
             series: [{
-                    name: 'Jumlah',
-                    data: [387749, 280000, 129000, 64300, 54000, 34300, 387749, 280000, 129000, 64300, 54000,
-                        34300
-                    ]
+                    name: 'Jumlah Transaksi',
+                    data: {!! json_encode($chartPengeluaran['y']) !!}
                 },
                 {
-                    name: 'Penghasilan',
-                    data: [45321, 140000, 10000, 140500, 19500, 113500, 45321, 140000, 10000, 140500, 19500,
-                        113500
-                    ]
+                    name: 'Pengeluaran',
+                    data: {!! json_encode($chartPengeluaran['z']) !!}
                 }
             ]
         });
