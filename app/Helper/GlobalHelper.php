@@ -17,8 +17,8 @@ class GlobalHelper
 
 // Ambil transaksi terakhir berdasarkan jenis transaksi dan tanggal
             $lastTransactionId = Transaksi::orderBy('no_transaksi', 'desc')
-                ->whereYear('tgl_transaksi', date('Y'))
-                ->whereMonth('tgl_transaksi', date('m'))
+                ->whereYear('created_at', date('Y'))
+                ->whereMonth('created_at', date('m'))
                 ->where('jenis_transaksi', $jenis)
                 ->first();
 
