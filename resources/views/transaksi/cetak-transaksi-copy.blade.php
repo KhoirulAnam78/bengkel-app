@@ -31,9 +31,9 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets-receipt') }}/css/main-style.css">
 </head>
 
-<body class="section-bg-one" style="margin-top:0px;padding-top:3px">
+<body class="section-bg-one" style="width: 100% !important">
 
-    <main class="container receipt-wrapper" id="download-section" style="margin-top:0px;padding-top:3px">
+    <main class="container receipt-wrapper" id="download-section" style="width: 100% !important">
         <div class="receipt-top" style="font-size: 12px !important">
             <div class="company-name">{{ $app_name }}</div>
             <div class="company-address">Alamat : {{ $alamat }}</div>

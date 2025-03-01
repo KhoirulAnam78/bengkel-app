@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 
 <head>
-    <link rel="stylesheet" href="{{ asset('receipt/fiddle.css') }}">
     <title>Transaksi-{{ $transaksi->no_transaksi }}</title>
+    <style>
+        @media print {
+            body {
+                font-size: 10px !important;
+                /* Sesuaikan ukuran */
+                font-family: "Arial", sans-serif;
+                /* Gunakan font yang jelas */
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            td,
+            th {
+                padding: 2px 4px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="page">
-        <p class="centered" style="font-size:10px !important;">
+    <div class="page" style="width: 100%">
+        <p class="centered" style="font-size:10px !important; text-align: center">
             <b>{{ $app_name }}</b>
             <br>Alamat : {{ $alamat }}
             <br>Kontak : {{ $no_hp }}
@@ -26,7 +45,7 @@
                 <tr>
                     <th style="font-size:10px !important" align="left">Nama</th>
                     <th style="font-size:10px !important" align="left">Harga</th>
-                    <th style="font-size:10px !important" align="left">Jumlah</th>
+                    <th style="font-size:10px !important" align="left">Jml</th>
                     <th style="font-size:10px !important" align="left">Subtotal</th>
                 </tr>
             </thead>
@@ -34,9 +53,9 @@
                 @foreach ($detailTrans as $t)
                     <tr>
                         <td style="font-size:10px !important">{{ $t->name }}</td>
-                        <td style="font-size:10px !important">{{ $t->harga }}</td>
+                        <td style="font-size:10px !important" nowrap>{{ $t->harga }}</td>
                         <td style="font-size:10px !important">{{ $t->jumlah }}</td>
-                        <td style="font-size:10px !important">Rp.{{ $t->sub_total }}</td>
+                        <td style="font-size:10px !important"nowrap>Rp.{{ $t->sub_total }}</td>
                     </tr>
                 @endforeach
 
